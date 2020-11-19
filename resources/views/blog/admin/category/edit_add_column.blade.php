@@ -3,7 +3,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-primary" type="submit">Сохранить</button>
             </div>
         </div>
     </div>
@@ -13,7 +13,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <div class="card-text">Id: 2</div>
+                <div class="card-text">ID категории: {{$foundCategory->id}}</div>
             </div>
         </div>
     </div>
