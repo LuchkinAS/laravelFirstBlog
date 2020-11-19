@@ -7,10 +7,10 @@
         @csrf
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @include()
+                @include('blog.admin.category.edit_main_column')
             </div>
             <div class="col-md-3">
-                @include()
+                @include('blog.admin.category.edit_add_column')
             </div>
         </div>
 
