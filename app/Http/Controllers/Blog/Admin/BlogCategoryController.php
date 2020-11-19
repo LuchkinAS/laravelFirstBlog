@@ -79,7 +79,10 @@ class BlogCategoryController extends BlogAdminBaseController
      */
     public function update(Request $request, $id)
     {
-        dd(__METHOD__);
+        $title = $request->get('title');
+        $description = $request->get('description');
+        $identifier = $request->get('identifier');
+        dd(__METHOD__, $id, $title, $description, $identifier);
     }
 
     /**

@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container">
-    <form method="post" action="{{ route('blog.admin.categories.update'), $item->id }}">
+{{--    <form method="post" action="{{ route('blog.admin.categories.update'), ['category' => $item->id] }}">--}}
+    <form method="post" action="{{ route('blog.admin.categories.update', $foundCategory->id) }}">
         @method('PATCH')
         @csrf
         <div class="row justify-content-center">
