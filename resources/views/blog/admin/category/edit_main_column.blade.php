@@ -38,10 +38,13 @@
                         <div class="form-group">
                             <label for="formGroupSelect">Родительская категория</label>
                             <select class="form-control" id="formGroupSelect" name="parentCategory">
-                                <option>Категория 1</option>
-                                <option>Категория 2</option>
-                                <option>Категория 3</option>
-                                <option>Категория 4</option>
+                                @foreach($categoryList as $category)
+                                    @if($category->id == $foundCategory->parent_id)
+                                        <option value="{{$category->id}}" selected>{{$category->title}}</option>
+                                    @else
+                                        <option value="{{$category->id}}">{{$category->title}}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">

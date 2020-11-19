@@ -67,6 +67,7 @@ class BlogCategoryController extends BlogAdminBaseController
         $foundCategory = BlogCategory::findOrFail($id);
         $categoryList = BlogCategory::all();
 
+        //dd($categoryList);
         return view('blog.admin.category.edit', compact('foundCategory', 'categoryList'));
     }
 
@@ -82,7 +83,8 @@ class BlogCategoryController extends BlogAdminBaseController
         $title = $request->get('title');
         $description = $request->get('description');
         $identifier = $request->get('identifier');
-        dd(__METHOD__, $id, $title, $description, $identifier);
+        $parentCategory = $request->get('parentCategory');
+        dd(__METHOD__, $id, $title, $description, $identifier, $parentCategory);
     }
 
     /**
