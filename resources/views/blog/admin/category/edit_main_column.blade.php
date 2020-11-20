@@ -22,6 +22,7 @@
                                 placeholder="Заголовок"
                                 name="title"
                                 value="{{$foundCategory->title}}"
+                                required
                             >
                         </div>
                         <div class="form-group">
@@ -31,15 +32,15 @@
                                 class="form-control"
                                 id="formGroupExampleInput"
                                 placeholder="Идентификатор"
-                                name="identifier"
+                                name="slug"
                                 value="{{ $foundCategory->slug }}"
                             >
                         </div>
                         <div class="form-group">
                             <label for="formGroupSelect">Родительская категория</label>
-                            <select class="form-control" id="formGroupSelect" name="parentCategory">
+                            <select class="form-control" id="formGroupSelect" name="parent_id">
                                 @foreach($categoryList as $category)
-                                    @if($category->id == $foundCategory->parent_id)
+                                    @if($category->id == $foundCategory->parent_id + 1)
                                         <option value="{{$category->id}}" selected>{{$category->title}}</option>
                                     @else
                                         <option value="{{$category->id}}">{{$category->title}}</option>
@@ -55,7 +56,7 @@
                                 rows="3"
                                 name="description"
                             >
-                                {{$foundCategory->description}}
+                                {{ old('description', $foundCategory->description) }}
                             </textarea>
                         </div>
                     </div>

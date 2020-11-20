@@ -2,11 +2,17 @@
 
 @section('content')
 <div class="container">
-{{--    <form method="post" action="{{ route('blog.admin.categories.update'), ['category' => $item->id] }}">--}}
     <form method="post" action="{{ route('blog.admin.categories.update', $foundCategory->id) }}">
         @method('PATCH')
         @csrf
         <div class="row justify-content-center">
+            @if($errors->any())
+            <div class="col-md-11">
+                <div class="alert alert-danger" role="alert">
+                    {{$errors->first()}}
+                </div>
+            </div>
+            @endif
             <div class="col-md-8">
                 @include('blog.admin.category.edit_main_column')
             </div>
@@ -14,7 +20,6 @@
                 @include('blog.admin.category.edit_add_column')
             </div>
         </div>
-
     </form>
 </div>
 @endsection

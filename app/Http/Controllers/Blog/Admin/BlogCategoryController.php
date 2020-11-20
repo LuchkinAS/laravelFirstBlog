@@ -8,6 +8,7 @@ use App\Models\BlogCategory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -37,7 +38,7 @@ class BlogCategoryController extends BlogAdminBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return Response
      */
     public function store(Request $request)
@@ -74,17 +75,29 @@ class BlogCategoryController extends BlogAdminBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        $title = $request->get('title');
-        $description = $request->get('description');
-        $identifier = $request->get('identifier');
-        $parentCategory = $request->get('parentCategory');
-        dd(__METHOD__, $id, $title, $description, $identifier, $parentCategory);
+        $foundCategory = BlogCategory::find($id);
+
+        if(empty($foundCategory)) {
+            return back()->withErrors(['msg' => 'Not found'])->withInput();
+        }
+        $data = $request->all();
+
+        $result = $foundCategory
+            ->fill($data)
+            ->save();
+        if($result) {
+            return redirect()
+                ->route('blog.admin.categories.index')
+                ->with(['msg' => 'Success']);
+        }
+
+        return back()->withErrors(['msg' => 'Saving error'])->withInput();
     }
 
     /**
