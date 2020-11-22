@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <nav class="navbar navbar-light bg-faded">
-                    <a class="btn btn-primary" href="{{ route('blog.admin.categories.create') }}">Add category</a>
+                    <a class="btn btn-primary" href="{{ route('blog.admin.categories.create') }}">Добавить категорию</a>
                 </nav>
                 <div class="card">
                     <div class="card-body">

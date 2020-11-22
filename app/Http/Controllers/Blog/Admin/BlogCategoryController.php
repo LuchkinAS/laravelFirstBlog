@@ -6,6 +6,7 @@ use App\Http\Controllers\Blog\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\BlogCategory;
+use App\Repositories\BlogCategoryRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -85,12 +86,16 @@ class BlogCategoryController extends BlogAdminBaseController
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return Application|Factory|View|Response
+     * @param BlogCategoryRepository $categoryRepository
+     * @return View
      */
-    public function edit(int $id)
+    public function edit(int $id, BlogCategoryRepository $categoryRepository): View
     {
-        $foundCategory = BlogCategory::findOrFail($id);
-        $categoryList = BlogCategory::all();
+        $foundCategory = $categoryRepository->getById($id);
+        if(empty($foundCategory)) {
+            abort(404);
+        }
+        $categoryList = $categoryRepository->getForSelect();
 
         //dd($categoryList);
         return view('blog.admin.category.edit', compact('foundCategory', 'categoryList'));
