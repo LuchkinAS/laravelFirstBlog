@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Blog\Admin;
 
 use App\Http\Controllers\Blog\BaseController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\BlogCategory;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -11,6 +12,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class BlogCategoryController extends BlogAdminBaseController
 {
@@ -32,7 +34,12 @@ class BlogCategoryController extends BlogAdminBaseController
      */
     public function create()
     {
-        dd(__METHOD__);
+        $foundCategory = new BlogCategory();
+        $categoryList = BlogCategory::all();
+
+        //dd($categoryList);
+        return view('blog.admin.category.edit', compact('foundCategory', 'categoryList'));
+
     }
 
     /**
@@ -41,9 +48,26 @@ class BlogCategoryController extends BlogAdminBaseController
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(UpdateCategoryRequest $request)
     {
-        dd(__METHOD__);
+        $data = $request->all();
+
+        if(empty($data['slug'])){
+            $data['slug'] = Str::slug($data['title']);
+        }
+
+        $item = new BlogCategory($data);
+        $result = $item->save();
+
+        if($result) {
+            return redirect()
+                ->route('blog.admin.categories.index')
+                ->with(['msg' => 'Success']);
+        }
+
+        return back()->withErrors(['msg' => 'Saving error'])->withInput();
+
+
     }
 
     /**
@@ -75,11 +99,11 @@ class BlogCategoryController extends BlogAdminBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
+     * @param UpdateCategoryRequest $request
+     * @param int $id
      * @return RedirectResponse
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateCategoryRequest $request, int $id)
     {
         $foundCategory = BlogCategory::find($id);
 

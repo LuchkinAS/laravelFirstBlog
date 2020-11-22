@@ -13,6 +13,7 @@
                             <th>#</th>
                             <th>Title</th>
                             <th>Parent</th>
+                            <th>Description</th>
                             </thead>
                             <tbody>
                             @foreach($paginator as $item)
@@ -22,6 +23,7 @@
                                         <a href="{{ route('blog.admin.categories.edit', ['category' => $item->id]) }}"> {{ $item->title }} </a>
                                     </td>
                                     <td>{{$item->parent_id}}</td>
+                                    <td>{{$item->description}}</td>
                                 </tr>
                             @endforeach
                             </tbody>
