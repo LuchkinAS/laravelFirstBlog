@@ -17,17 +17,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::group(['prefix' => 'blog'], function (){
-    Route::resource('posts', PostController::class)->names('post');
-});
+
+//Route::group(['prefix' => 'blog'], function (){
+//    Route::resource('posts', PostController::class)->names('post');
+//});
 
 Route::group(['prefix' => 'admin/blog'], function () {
+
     Route::resource('categories', \App\Http\Controllers\Blog\Admin\BlogCategoryController::class)
         ->only(['get', 'index', 'edit', 'store', 'update', 'create'])
         ->names('blog.admin.categories');
+
+    Route::resource('posts', \App\Http\Controllers\Blog\PostController::class)
+        ->names('blog.admin.posts');
 });
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

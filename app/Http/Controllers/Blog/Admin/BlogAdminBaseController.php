@@ -9,5 +9,9 @@ use Illuminate\Http\Request;
 
 abstract class BlogAdminBaseController extends BaseController
 {
+    public function __construct()
+    {
+
+    }
     //
 }

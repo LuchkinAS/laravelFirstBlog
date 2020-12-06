@@ -20,4 +20,21 @@ class BlogCategoryRepository extends BaseRepository
     public function getForSelect() {
         return $this->startCondition()->all();
     }
+
+    public function getAllWithPaginate(int $itemsPerPage) {
+        $fields = [
+            'id',
+            'title',
+            'parent_id',
+            'description'
+        ];
+
+        return $this->startCondition()
+            ->select($fields)
+            ->paginate($itemsPerPage);
+    }
+
+    public function getAll() {
+        return $this->startCondition()->all();
+    }
 }

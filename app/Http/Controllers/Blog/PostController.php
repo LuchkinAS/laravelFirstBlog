@@ -2,12 +2,33 @@
 
 namespace App\Http\Controllers\Blog;
 
+use App\Http\Controllers\Blog\Admin\AdminPostController;
 use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
+use App\Repositories\BlogCategoryRepository;
+use App\Repositories\BlogPostRepository;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class PostController extends BaseController
 {
+
+    /**
+     * @var BlogPostRepository
+     */
+    private BlogPostRepository $postRepository;
+
+    /**
+     * @var BlogCategoryRepository
+     */
+    private BlogCategoryRepository $categoryRepository;
+
+    public function __construct() {
+        parent::__construct();
+
+        $this->postRepository = app(BlogPostRepository::class);
+        $this->categoryRepository = app(BlogCategoryRepository::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,9 +36,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $items = BlogPost::all();
-
-        return view('blog.posts.index', compact('items'));
+        $posts = BlogPost::with(['user:id,name', 'category'])->paginate(10);
+        return view('blog.admin.post.index', compact('posts'));
     }
 
     /**
@@ -27,7 +47,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        dd(__METHOD__);
     }
 
     /**
@@ -38,7 +58,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd(__METHOD__);
     }
 
     /**
@@ -49,7 +69,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        dd(__METHOD__);
     }
 
     /**
@@ -60,7 +80,14 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = BlogPost::find($id);
+        if(empty($post)) {
+            abort(404);
+        }
+        $categories = $this->categoryRepository->getForSelect();
+
+        //dd($post, $categories);
+        return view('blog.admin.post.edit', compact('post', 'categories'));
     }
 
     /**
@@ -72,7 +99,8 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        dd(__METHOD__, $request->all());
     }
 
     /**
@@ -83,6 +111,6 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        dd(__METHOD__);
     }
 }
